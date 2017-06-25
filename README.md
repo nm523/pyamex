@@ -7,6 +7,15 @@ Ported from the the ruby version by timrogers, and improvements by DanToml:
 
 Requires Python 3.4 and above.
 
+## Installation
+
+For the moment, you'll have to clone or download this directory.
+Once inside the directory (with the setup.py file) run:
+
+```bash
+python setup.py install
+```
+
 ## Usage
 
 ```python
