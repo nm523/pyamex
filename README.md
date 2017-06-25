@@ -1,4 +1,10 @@
-# pyamex : Access American Express account data from Python
+# pyamex
+## Access American Express account data from Python
+
+Based on the work by timrogers, and improvements by DanToml:
+
+* https://github.com/timrogers/amex
+* https://github.com/DanToml/amex
 
 Requires Python 3.5+ above
 
