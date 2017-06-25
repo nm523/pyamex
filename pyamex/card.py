@@ -7,29 +7,59 @@ from collections import defaultdict
 from .transaction import Transaction
 
 class CardAccount:
+    """
+    Contains the account details for a given card associated
+    with an Amex account.
+
+    Contains methods for obtaining the transactions associated
+    with the account, as well as some data about the account itself.
+
+    Attributes
+    ----------
+    Attributes are generated dynamically from the keys given in the
+    options dictionary on initialisation.
+
+    TODO : Document the attributes
+    """
 
     loyalty_programmes = []
 
     def __init__(self, options):
-        # options is a dict containing the
-        # XML properties pulled directly from the API
-        # xml
+        """
+        Parameters
+        ----------
+        options : dict
+            dict of parameters
+        """
         for key, value in options.items():
             setattr(self, pyamex.utils.clean_key(key), value)
 
     def transactions(self, billing_period=0, 
                      transaction_type='pending'):
+        """
+        Gets the most recent transactions for an account, 
+        or those within a period specified.
 
+        Parameters
+        ----------
+        billing_period : int or list of ints (default: 0)
+            The billing period to be inspected, if a list of ints
+            is passed through, then the transactions for each period
+            will be extracted.
+
+        transaction_type : str (default: 'pending')
+            Toggles between 'pending' and 'recent' transactions
+
+        Returns : dict of lists
+        """
         result = defaultdict(list)
         billing_periods = pyamex.utils.to_list(billing_period)
 
         for period in billing_periods:
-            options = { 
-                'PayLoadText' : self.client.transactions_request_xml(
-                                                       card_index=self.card_index, 
-                                                       billing_period=period, 
-                                                       transaction_type=transaction_type)
-                }
+            options = { 'PayLoadText' : self.client.transactions_request_xml(
+                                                 card_index=self.card_index, 
+                                                 billing_period=period, 
+                                                 transaction_type=transaction_type)}
             options = urllib.parse.urlencode(options) \
                                   .encode()
 

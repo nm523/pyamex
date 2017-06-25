@@ -7,10 +7,14 @@ import xml.etree.cElementTree
 from .card import CardAccount
 from .loyalty import LoyaltyProgramme
 
+# For accessing the XML templates in the data directory
 FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 DATA_PATH = os.path.join(FILE_PATH, 'data')
 
 class AmexClient:
+    """
+    Main entry point for accessing the Amex API.
+    """
 
     all_urls = {
         'en_GB': {
@@ -25,7 +29,19 @@ class AmexClient:
 
     loyalty_programmes = []
 
-    def __init__(self, username, password, locale):
+    def __init__(self, username, password, locale='en_GB'):
+        """
+        Parameters
+        ----------
+        username : str
+            Username of the account holder
+
+        password : str
+            Password for the user
+
+        locale : str
+           Decides which API url to use
+        """
         self.username = username
         self.password = password
         self.locale = locale
@@ -35,18 +51,11 @@ class AmexClient:
 
     def accounts(self):
         """
+        Queries the API for all of the card accounts for the user
+
+        Returns : list of CardAccounts
+
         """
-        # create options dictionary of ['body': 'PayLoadText' = request_xml()
-        # get the response by posting to the accounts url, passing through
-        # the options
-
-        # parse the xml
-
-        # check if there is an error
-        # otherwise
-        ## get the secruity token
-        ## loop through the CardAccounts CardAccount
-
         # get the summary data
         options = { 'PayLoadText' : self.request_xml() }
 
@@ -72,9 +81,21 @@ class AmexClient:
         return accounts  
 
     def create_account(self, account_tree):
-        # loop through card data params
-        # loop through account summary data summary elements
+        """
+        Extract data from an xml account tree and return
+        a CardAccount object containing all of the relevant fields
 
+        Parameters
+        ----------
+        account_tree : xml.etree.cElementTree.Element
+            An XML tree containing the account data
+
+        Returns : CardAccount
+
+        """
+
+        # Couple this object to the account object in order
+        # to access the request_xml methods and other account info
         account_data = dict()
         account_data['client'] = self
 
@@ -87,7 +108,7 @@ class AmexClient:
             name = summary_element.attrib['name']
             account_data[name] = summary_element.attrib[key]
 
-        ## append the loyalty schemes to the loyalty_programmes var
+        # Extract the loyalty programmes from the XML
         for element in account_tree.findall('LoyaltyData/RewardsData/param'):
             name = element.attrib['label']
             value = element.attrib['formattedValue'].replace(',', '')
@@ -101,15 +122,22 @@ class AmexClient:
     def transactions_request_xml(self, card_index, \
                                  billing_period=0, transaction_type='recent'):
         """
+        Generates the XML requests for account transactions
+
+        Parameters
+        ----------
+        card_index : integer
+            The card on account which the request is being generated for
+
+        billing_period : integer
+            Which billing period to inspect (0 = most recent)
+
+        transaction_type : str
+            Switch between pending or recent transactions
         """
-        # select xml file depending on whether or not the transaction type is pending or recent
-        # load the xml file
-        # format the local and the security token
-        # return the xml
+        xml_filename = 'statement_request.xml'
         if transaction_type == 'pending':
             xml_filename = 'pending_transactions_request.xml'
-        else:
-            xml_filename = 'statement_request.xml'
 
         xml_filename = os.path.join(DATA_PATH, xml_filename)
         with open(xml_filename, 'r') as xml_file:
@@ -126,9 +154,6 @@ class AmexClient:
         Generates the XML to send in a request to fetch cards for
         an account.
         """
-        # load XML template
-        # formate username, password, timestamp, and locale intro it
-        # return the result
         xml_filename = os.path.join(DATA_PATH, 'request.xml')
         with open(xml_filename, 'r') as xml_file:
             xml = xml_file.read()
@@ -149,5 +174,6 @@ class AmexClient:
 
     def advertisement_id(self):
         """
+        Generates an AdvertisementId to be sent in requests
         """
         return uuid.uuid4()
