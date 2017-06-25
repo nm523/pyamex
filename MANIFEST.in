@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+
+include setup.py
+
+graft pyamex
+graft pyamex/data
+
+global-exclude *~
+global-exclude .git
+global-exclude build
+global-exclude *.pyc
+global-exclude *.save
