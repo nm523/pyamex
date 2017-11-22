@@ -108,7 +108,7 @@ class CardAccount:
 
     def loyalty_balances(self):
         return { programme.name : programme.balance
-                 for programme in self.loyalty_programmes.items() }
+                 for programme in self.loyalty_programmes }
 
     def __repr__(self):
         repr_ = '<pyamex.card.CardAccount ({card})>'
