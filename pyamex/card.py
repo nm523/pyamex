@@ -34,7 +34,7 @@ class CardAccount:
             setattr(self, pyamex.utils.clean_key(key), value)
 
     def transactions(self, billing_period=0, 
-                     transaction_type='pending'):
+                     transaction_type='recent'):
         """
         Gets the most recent transactions for an account, 
         or those within a period specified.
@@ -46,7 +46,7 @@ class CardAccount:
             is passed through, then the transactions for each period
             will be extracted.
 
-        transaction_type : str (default: 'pending')
+        transaction_type : str (default: 'recent')
             Toggles between 'pending' and 'recent' transactions
 
         Returns : dict of lists
@@ -109,4 +109,8 @@ class CardAccount:
     def loyalty_balances(self):
         return { programme.name : programme.balance
                  for programme in self.loyalty_programmes.items() }
+
+    def __repr__(self):
+        repr_ = '<pyamex.card.CardAccount ({card})>'
+        return repr_.format(card=self.card_product.encode('utf-8'))
 

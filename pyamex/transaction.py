@@ -29,12 +29,17 @@ class Transaction:
         #self.description = transaction.find('*[@name="TransDesc"]').text
         #self.reference_number = transaction.find('*[@name="transRefNo"]').text
 
-        trans_amount = float(transaction.find('TransAmount').text)
+        self.trans_amount = float(transaction.find('TransAmount').text)
 
         self.extra_details = dict()
         for detail in transaction.findall('TransExtDetail/ExtDetailElement'):
             name = detail.attrib['name']
             self.extra_details[name] = detail.attrib['formattedValue']
 
-        def is_foreign_transaction(self):
-            return 'currencyRate' in self.extra_details
+    def is_foreign_transaction(self):
+        return 'currencyRate' in self.extra_details
+
+    def __repr__(self):
+        repr_ = '<Transaction on {date} for {amount}>'
+        return repr_.format(date=self.date.strftime('%Y-%m-%d'),
+                            amount=self.trans_amount)
