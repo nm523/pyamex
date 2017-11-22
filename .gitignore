@@ -1,0 +1,4 @@
+test.py
+**/*.pyc
+/pyamex/__pycache__/*
+/build/*

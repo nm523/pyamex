@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XMLRequest>
 	<ClientType>iPhone</ClientType>
-	<ClientVersion>4.3</ClientVersion>
+	<ClientVersion>4.1</ClientVersion>
 	<ServiceVersion>2.1</ServiceVersion>
 	<Locale>{locale}</Locale>
 	<ServiceName>AccountSummaryService</ServiceName>

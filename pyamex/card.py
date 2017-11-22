@@ -1,7 +1,6 @@
+import requests
 import datetime
 import pyamex.utils
-import urllib.parse
-import urllib.request
 import xml.etree.cElementTree
 from collections import defaultdict
 from .transaction import Transaction
@@ -60,17 +59,15 @@ class CardAccount:
                                                  card_index=self.card_index, 
                                                  billing_period=period, 
                                                  transaction_type=transaction_type)}
-            options = urllib.parse.urlencode(options) \
-                                  .encode()
 
-            response = urllib.request.urlopen(self.client.url, options) \
-                                     .read()
+            response = requests.get(self.client.url, options) \
+                               .content
 
             xml_tree = xml.etree.cElementTree.fromstring(response)
 
             status = xml_tree.find('ServiceResponse/Status').text
             if status != 'success':
-                raise ValueError # TODO: Add better error
+                raise requests.exceptions.RequestException()
 
             for transaction in xml_tree.findall('StatementDetails/CardAccounts/CardAccount/TransactionDetails/Transaction'):
                 result[period].append(Transaction(transaction))

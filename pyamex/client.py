@@ -1,9 +1,9 @@
 import os
 import uuid
 import time
-import urllib.parse
+import requests
+import requests.exceptions
 import pkg_resources
-import urllib.request
 import xml.etree.cElementTree
 from .card import CardAccount
 from .loyalty import LoyaltyProgramme
@@ -12,7 +12,7 @@ from .loyalty import LoyaltyProgramme
 FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 DATA_PATH = os.path.join(FILE_PATH, 'data')
 
-class AmexClient:
+class AmexClient(object):
     """
     Main entry point for accessing the Amex API.
     """
@@ -43,9 +43,9 @@ class AmexClient:
         locale : str
            Decides which API url to use
         """
+        self.locale = locale
         self.username = username
         self.password = password
-        self.locale = locale
 
         urls = self.all_urls[locale]
         self.url = ''.join([urls['base_uri'], urls['accounts']])
@@ -60,17 +60,15 @@ class AmexClient:
         # get the summary data
         options = { 'PayLoadText' : self.request_xml() }
 
-        options = urllib.parse.urlencode(options) \
-                              .encode()
-
-        response = urllib.request.urlopen(self.url, options) \
-                                 .read()
+        response = requests.get(self.url, params=options) \
+                           .content
 
         xml_tree = xml.etree.cElementTree.fromstring(response)
 
         status = xml_tree.find('ServiceResponse/Status').text
+
         if status != 'success':
-            raise ValueError # TODO: Add better error
+            raise requests.exceptions.RequestException()
 
         self.security_token = xml_tree.find('ClientSecurityToken').text
 
@@ -138,7 +136,6 @@ class AmexClient:
         """
         xml_filename = 'data/statement_request.xml'
         if transaction_type == 'pending':
-            print('pending')
             xml_filename = 'data/pending_transactions_request.xml'
 
         xml_filename = pkg_resources.resource_filename(__name__, xml_filename)
@@ -150,6 +147,29 @@ class AmexClient:
                              billing_period=billing_period)
 
         return xml
+
+    def payments_request_xml(self):
+        xml_filename = 'data/recent_payments_request.xml'
+        xml_filename = pkg_resources.resource_filename(__name__, xml_filename)
+        with open(xml_filename, 'r') as xml_file:
+            xml = xml_file.read()
+
+        return xml
+
+    def payments(self):
+        """
+        Queries the API for all of the card accounts for the user
+
+        Returns : list of CardAccounts
+
+        """
+        # get the summary data
+        options = { 'PayLoadText' : self.payments_request_xml() }
+
+        response = request.get(self.url, params=options) \
+                          .text
+        print(response)
+
 
     def request_xml(self):
         """
@@ -165,7 +185,6 @@ class AmexClient:
                              hardware_id=self.hardware_id(),
                              advertisement_id=self.advertisement_id(),
                              locale=self.locale)
-
         return xml
 
     def hardware_id(self):

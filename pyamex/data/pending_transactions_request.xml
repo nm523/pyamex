@@ -4,7 +4,7 @@
 <ClientVersion>4.1</ClientVersion>
 <ServiceVersion>2.1</ServiceVersion>
 <Locale>{locale}</Locale>
-<ServiceName>StatementService</ServiceName>
+<ServiceName>FinancialService</ServiceName>
 <Operation>Statement</Operation>
 <ClientSecurityToken>{security_token}</ClientSecurityToken>
 <StatementRequestData>
@@ -12,5 +12,6 @@
 <CardIndex>{card_index}</CardIndex>
 <StartRecord>0</StartRecord>
 <RecordsPerPage>9999</RecordsPerPage>
+<PaymentsAndCredits>TRUE</PaymentsAndCredits>
 </StatementRequestData>
 </XMLRequest>

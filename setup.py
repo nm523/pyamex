@@ -4,8 +4,8 @@ from distutils.core import setup
 VERSIONFILE = 'pyamex/version.py'
 
 setup(name='pyamex',
-	  version='0.1.1',
-          license='MIT',
+	  version='0.2.1',
+      license='MIT',
 	  description='Python Library for accessing American Express account data',
 	  author='Niall McConville',
 	  author_email='niall.mcconville@cantab.net',
