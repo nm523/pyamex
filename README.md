@@ -9,8 +9,13 @@ Requires Python 3.4 and above.
 
 ## Installation
 
-For the moment, you'll have to clone or download this directory.
-Once inside the directory (with the setup.py file) run:
+You can install using pip:
+
+```bash
+pip install pyamex
+```
+
+or manually:
 
 ```bash
 python setup.py install
