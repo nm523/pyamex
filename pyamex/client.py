@@ -184,18 +184,18 @@ class AmexClient:
             xml = xml.format(username=self.username,
                              password=self.password,
                              timestamp=time.time(),
-                             hardware_id=self.hardware_id(),
-                             advertisement_id=self.advertisement_id(),
+                             hardware_id=self.generate_hardware_id(),
+                             advertisement_id=self.generate_advertisement_id(),
                              locale=self.locale)
         return xml
 
-    def hardware_id(self):
+    def generate_hardware_id(self):
         """
         Generates a HardwareId to be sent in requests
         """
         return uuid.uuid4()
 
-    def advertisement_id(self):
+    def generate_advertisement_id(self):
         """
         Generates an AdvertisementId to be sent in requests
         """

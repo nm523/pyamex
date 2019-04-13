@@ -2,8 +2,6 @@
 from distutils.core import setup
 from pyamex.version import __version__
 
-VERSIONFILE = 'pyamex/version.py'
-
 setup(name='pyamex',
       version=__version__,
       license='MIT',
