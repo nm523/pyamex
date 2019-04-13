@@ -25,6 +25,10 @@ class AmexClient:
         'en_US': {
             'base_uri': 'https://online.americanexpress.com',
             'accounts': '/myca/moblclient/us/v2/ws.do'
+        },
+        'de_DE': {
+            'base_uri': 'https://slglobal.americanexpress.com',
+            'accounts': '/myca/intl/moblclient/emea/ws.do?Face=de_DE'
         }
     }
 
