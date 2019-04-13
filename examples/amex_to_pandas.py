@@ -17,7 +17,7 @@ login = {
 # Select the number of billing periods
 periods = input('Billing Periods: ')
 periods = int(periods)
-periods = list(range(0, periods))
+periods = [0] if periods is 0 else list(range(0, periods))
 
 client = pyamex.AmexClient(**login)
 
