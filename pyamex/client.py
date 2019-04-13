@@ -12,6 +12,7 @@ from .loyalty import LoyaltyProgramme
 FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 DATA_PATH = os.path.join(FILE_PATH, 'data')
 
+
 class AmexClient:
     """
     Main entry point for accessing the Amex API.
@@ -62,10 +63,10 @@ class AmexClient:
 
         """
         # get the summary data
-        options = { 'PayLoadText' : self.request_xml() }
+        options = {'PayLoadText': self.request_xml()}
 
         response = requests.get(self.url, params=options) \
-                           .content
+            .content
 
         xml_tree = xml.etree.cElementTree.fromstring(response)
 
@@ -76,12 +77,12 @@ class AmexClient:
 
         self.security_token = xml_tree.find('ClientSecurityToken').text
 
-        accounts = [ 
-                    self.create_account(account)
-                    for account in xml_tree.find('CardAccounts') 
-                   ]
+        accounts = [
+            self.create_account(account)
+            for account in xml_tree.find('CardAccounts')
+        ]
 
-        return accounts  
+        return accounts
 
     def create_account(self, account_tree):
         """
@@ -118,9 +119,7 @@ class AmexClient:
             loyalty_programme = LoyaltyProgramme(name, value)
             self.loyalty_programmes.append(loyalty_programme)
 
-
         return CardAccount(account_data)
-
 
     def transactions_request_xml(self, card_index, \
                                  billing_period=0, transaction_type='recent'):
@@ -145,7 +144,7 @@ class AmexClient:
         xml_filename = pkg_resources.resource_filename(__name__, xml_filename)
         with open(xml_filename, 'r') as xml_file:
             xml = xml_file.read()
-            xml = xml.format(locale=self.locale, 
+            xml = xml.format(locale=self.locale,
                              security_token=self.security_token,
                              card_index=card_index,
                              billing_period=billing_period)
@@ -168,12 +167,11 @@ class AmexClient:
 
         """
         # get the summary data
-        options = { 'PayLoadText' : self.payments_request_xml() }
+        options = {'PayLoadText': self.payments_request_xml()}
 
         response = request.get(self.url, params=options) \
-                          .text
+            .text
         print(response)
-
 
     def request_xml(self):
         """
