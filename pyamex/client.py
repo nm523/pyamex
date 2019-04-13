@@ -121,8 +121,7 @@ class AmexClient:
 
         return CardAccount(account_data)
 
-    def transactions_request_xml(self, card_index, \
-                                 billing_period=0, transaction_type='recent'):
+    def transactions_request_xml(self, card_index, billing_period=0, transaction_type='recent'):
         """
         Generates the XML requests for account transactions
 
@@ -167,7 +166,9 @@ class AmexClient:
 
         """
         # get the summary data
-        options = {'PayLoadText': self.payments_request_xml()}
+        options = {
+            'PayLoadText': self.payments_request_xml()
+        }
 
         response = request.get(self.url, params=options) \
             .text

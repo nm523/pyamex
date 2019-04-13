@@ -69,6 +69,7 @@ class CardAccount:
             xml_tree = xml.etree.cElementTree.fromstring(response)
 
             status = xml_tree.find('ServiceResponse/Status').text
+
             if status != 'success':
                 raise requests.exceptions.RequestException()
 
