@@ -1,5 +1,4 @@
 import datetime
-import xml.etree.cElementTree
 
 class Transaction:
     """
@@ -26,8 +25,8 @@ class Transaction:
         self.narrative = transaction.find('TransDesc').text
 
         # These two were in the Ruby code but don't appear to work any more
-        #self.description = transaction.find('*[@name="TransDesc"]').text
-        #self.reference_number = transaction.find('*[@name="transRefNo"]').text
+        # self.description = transaction.find('*[@name="TransDesc"]').text
+        # self.reference_number = transaction.find('*[@name="transRefNo"]').text
 
         self.trans_amount = float(transaction.find('TransAmount').text)
 
@@ -36,6 +35,7 @@ class Transaction:
             name = detail.attrib['name']
             self.extra_details[name] = detail.attrib['formattedValue']
 
+    @property
     def is_foreign_transaction(self):
         return 'currencyRate' in self.extra_details
 
