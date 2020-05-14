@@ -1,5 +1,14 @@
 # pyamex : American Express account data from Python
 
+![Maintenance](https://img.shields.io/maintenance/no/2019)
+
+## Warning
+
+It looks like Amex have updated their APIs and so this library (and the original ruby) libraries will no longer work.
+At present I'm not maintaining this library so unfortunately I won't be providing any updates here.
+
+## Background
+
 Ported from the the ruby version by timrogers, and improvements by DanToml:
 
 * https://github.com/timrogers/amex
@@ -34,12 +43,3 @@ accounts = client.accounts()
 for account in accounts:
     print(account.card_product, account.total_balance)
 ```
-
-## Examples
-See below.
-
-## TODO
-* Code cleanup
-* Examples
-
-
