@@ -4,7 +4,7 @@
 
 ## Warning
 
-It looks like Amex have updated their APIs and so this library (and the original ruby) libraries will no longer work.
+It looks like Amex have updated their APIs and so this library (and the original ruby libraries) will no longer work.
 At present I'm not maintaining this library so unfortunately I won't be providing any updates here.
 
 ## Background
